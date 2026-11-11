@@ -1,0 +1,14 @@
+# File kredensial & environment variables
+.env
+.env.*
+!.env.example
+
+# Direktori lokal & cache deployment
+.vercel
+node_modules/
+vendor/
+
+# File log & sistem operasi
+*.log
+.DS_Store
+Thumbs.db

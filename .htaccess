@@ -1,0 +1,9 @@
+RewriteEngine On
+
+# Biarkan request ke file atau folder fisik (seperti /api, /public) berjalan langsung
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Arahkan route aplikasi (/chat, /knowledge-base, /testing, /dashboard) ke index.php
+RewriteRule ^(.*)$ index.php?route=$1 [QSA,L]

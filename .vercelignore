@@ -1,0 +1,15 @@
+.vercel
+node_modules
+.git
+/api/
+/core/
+/services/
+/lib/
+/types/
+/config/
+/components/
+/app/
+/scripts/
+/data/
+/index.php
+/.htaccess

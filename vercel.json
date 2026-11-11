@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    { "source": "/chat", "destination": "/index.html" },
+    { "source": "/knowledge-base", "destination": "/index.html" },
+    { "source": "/testing", "destination": "/index.html" },
+    { "source": "/dashboard", "destination": "/index.html" }
+  ]
+}
