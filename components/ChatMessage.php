@@ -1,20 +1,22 @@
 <?php
 /**
  * components/ChatMessage.php
- * Komponen pesan percakapan (Pengguna & Sistem Chatbot)
+ * Komponen pesan percakapan awal bergaya aplikasi chat modern
  */
 
 function renderInitialChatMessage(): void
 {
+    $nowTime = date('H:i');
     ?>
+    <div class="date-chip-row">
+        <span class="date-chip">Hari ini</span>
+    </div>
     <div class="msg msg-bot">
-        <div class="msg-sender">Asisten Informasi Kabupaten Purworejo</div>
-        <div class="msg-text">Selamat datang di Prototype Chatbot Knowledge Base Pemerintah Kabupaten Purworejo.
+        <div class="msg-text">Halo! 👋
+Selamat datang di Layanan Informasi Kabupaten Purworejo.
 
-Silakan ajukan pertanyaan seputar layanan publik, administrasi kependudukan, perizinan, kesehatan, atau informasi daerah. Sistem hanya akan menjawab berdasarkan data resmi di dalam Knowledge Base.</div>
-        <div class="msg-meta">
-            <span class="badge badge-blue">Sumber Utama: Knowledge Base Resmi</span>
-        </div>
+Ada yang bisa saya bantu hari ini? Silakan tanyakan seputar layanan publik, administrasi kependudukan, perizinan, kesehatan, atau informasi daerah lainnya ya ✨</div>
+        <div class="msg-time"><?= $nowTime ?></div>
     </div>
     <?php
 }

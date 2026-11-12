@@ -154,30 +154,96 @@ async function searchTopKB(norm) {
         .slice(0, TOP_KB_LIMIT);
 }
 
+const FRIENDLY_OPENERS = [
+    'Tentu, saya bantu informasinya ya.',
+    'Baik, saya bantu cek informasinya.',
+    'Tentu, berikut informasinya.',
+    'Baik, untuk informasi tersebut berikut detailnya.',
+    'Silakan, berikut informasi yang tersedia.',
+    'Tentu, saya bantu cek ya.'
+];
+
+const NO_KB_MESSAGES = [
+    'Maaf ya, informasi tersebut belum tersedia di data yang saya miliki.',
+    'Maaf, untuk informasi tersebut saat ini belum tersedia di layanan informasi Kabupaten Purworejo.'
+];
+
+function hashQuestion(str) {
+    let h = 0;
+    for (let i = 0; i < str.length; i++) {
+        h = (h * 31 + str.charCodeAt(i)) >>> 0;
+    }
+    return h;
+}
+
+function sanitizeMetadataLeaks(text) {
+    return String(text || '')
+        .replace(/^Berdasarkan Knowledge Base[^:\n]*:\s*/i, '')
+        .replace(/\(Kategori:\s*[^)]+\)\s*:?/gi, '')
+        .replace(/^(Kategori|KB ID|Source Ref|Entity|Confidence|Record)\s*:.*$/gim, '')
+        .replace(/^#\s*KNOWLEDGE BASE\s+/gim, '')
+        .replace(/\n{3,}/g, '\n\n')
+        .trim();
+}
+
+function formatNaturalFallback(question, kb) {
+    const opener = FRIENDLY_OPENERS[hashQuestion(question) % FRIENDLY_OPENERS.length];
+    const title = String(kb.title || '').trim();
+    let cleanBody = String(kb.answer || '').trim()
+        .replace(/^#\s*KNOWLEDGE BASE[^\n]*\n+/i, '')
+        .replace(/^\*Berikut informasi terkait pertanyaan Anda:\*\s*\n*/i, '');
+
+    const lines = cleanBody.split('\n');
+    if (lines.length > 1) {
+        const firstPlain = lines[0].replace(/[^\p{L}\p{N}\s]/gu, '').trim().toLowerCase();
+        const titlePlain = title.replace(/[^\p{L}\p{N}\s]/gu, '').trim().toLowerCase();
+        if (firstPlain && titlePlain && firstPlain === titlePlain) {
+            lines.shift();
+        }
+    }
+    const bodyText = lines.join('\n').trim();
+    return `${opener}\n\n${bodyText}\n\nSemoga informasinya membantu ya.`;
+}
+
 async function generateAnswerWithAI(question, topKBs) {
-    const NO_KB_MESSAGE = 'Maaf, informasi mengenai pertanyaan Anda belum tersedia di dalam Knowledge Base Kabupaten Purworejo.';
     if (!topKBs || topKBs.length === 0) {
-        return { answer: NO_KB_MESSAGE, has_answer: false, mode: 'strict_gatekeeper_no_kb' };
+        const msg = NO_KB_MESSAGES[hashQuestion(question) % NO_KB_MESSAGES.length];
+        return { answer: msg, has_answer: false, mode: 'strict_gatekeeper_no_kb' };
     }
 
     const contextBlocks = topKBs.map((kb, idx) =>
-        `=== DOKUMEN KB #${idx + 1} ===\nID: ${kb.id}\nKategori: ${kb.category}\nJudul: ${kb.title}\nSkor: ${kb.relevance_score}\nIsi Informasi:\n${kb.answer}`
+        `[Referensi Internal #${idx + 1} - ${kb.title}]\n${kb.answer}`
     ).join('\n\n');
 
-    const systemInstruction = `Anda adalah Asisten Layanan Informasi Resmi Kabupaten Purworejo.
-TUGAS UTAMA ANDA ADALAH MENYUSUN JAWABAN HANYA BERDASARKAN DOKUMEN KNOWLEDGE BASE YANG DIBERIKAN.
-ATURAN KETAT:
-1. Knowledge Base adalah SATU-SATUNYA sumber informasi Anda.
-2. DILARANG KERAS mengarang informasi di luar Knowledge Base.
-3. Jika dokumen Knowledge Base TIDAK memuat jawaban atas pertanyaan pengguna, Anda WAJIB menjawab persis:
-"${NO_KB_MESSAGE}"`;
+    const systemInstruction = `Anda adalah petugas informasi digital Kabupaten Purworejo yang ramah, sopan, natural, humanis, ringkas, dan membantu masyarakat.
 
-    const userPrompt = `PERTANYAAN PENGGUNA:\n"${question}"\n\nDAFTAR TOP KNOWLEDGE BASE:\n${contextBlocks}\n\nSusunlah jawaban berdasarkan Knowledge Base di atas:`;
+ATURAN SUMBER DATA (ANTI-HALUSINASI):
+1. Gunakan HANYA fakta dari Referensi Internal yang diberikan di bawah.
+2. JANGAN mengubah nama instansi, alamat, nomor telepon, website, jadwal, angka, URL, data statistik, atau ketentuan yang tertulis di referensi.
+3. Jika Referensi Internal sama sekali tidak memuat jawaban untuk pertanyaan pengguna, jawab dengan ramah:
+"Maaf ya, informasi tersebut belum tersedia di data yang saya miliki."
+4. Jika pertanyaan pengguna terlalu singkat/ambigu sehingga bisa bermakna ganda, tanyakan klarifikasi singkat dengan ramah.
+5. Jika pertanyaan pengguna majemuk (menanyakan beberapa hal sekaligus), jawab semua bagian yang datanya tersedia.
+
+ATURAN GAYA BAHASA & LARANGAN METADATA (SANGAT PENTING):
+1. Gunakan gaya percakapan yang ramah, natural, dan mudah dipahami masyarakat umum.
+2. Awali dengan sapaan/pengantar pendek yang bervariasi dan natural (misal: "Tentu, saya bantu informasinya ya.", "Baik, saya bantu cek ya.", "Tentu, berikut informasinya.", "Silakan, berikut informasi yang tersedia.").
+3. DILARANG KERAS menampilkan identitas/metadata database kepada pengguna seperti:
+   - "Berdasarkan Knowledge Base..."
+   - "Sumber: Knowledge Base..."
+   - "Kategori: ..."
+   - "KB ID: ..." / "Entity: ..." / "Confidence: ..." / "Record: ..."
+   - "Berdasarkan uraian yang terdapat dalam..."
+4. Jangan menjadikan judul dokumen KB sebagai pembuka yang kaku. Langsung masuk ke jawaban setelah kalimat pengantar pendek.
+5. Jika pertanyaan sederhana (misal hanya tanya nomor telepon atau pengertian singkat), jawab secara ringkas dan langsung ke intinya.
+6. Jika pertanyaan membutuhkan detail lengkap (misal syarat, alur, atau profil layanan), susun dengan poin/ikon yang rapi dan mudah dibaca, lalu boleh ditutup singkat seperti "Semoga informasinya membantu ya."`;
+
+    const userPrompt = `Pertanyaan Masyarakat:\n"${question}"\n\nReferensi Internal (Gunakan di belakang layar, JANGAN sebutkan istilah Knowledge Base/Kategori/ID di jawaban):\n${contextBlocks}\n\nBerikan jawaban percakapan yang ramah, natural, dan akurat:`;
 
     const payload = {
         systemInstruction: { parts: [{ text: systemInstruction }] },
         contents: [{ role: 'user', parts: [{ text: userPrompt }] }],
-        generationConfig: { temperature: 0.0, maxOutputTokens: 1024 }
+        generationConfig: { temperature: 0.2, maxOutputTokens: 1024 }
     };
 
     const endpoints = [
@@ -196,8 +262,8 @@ ATURAN KETAT:
                 const json = await res.json();
                 const text = json?.candidates?.[0]?.content?.parts?.[0]?.text || '';
                 if (text.trim()) {
-                    const reply = text.trim();
-                    const isNoAns = reply.toLowerCase().includes('belum tersedia di dalam knowledge base');
+                    const reply = sanitizeMetadataLeaks(text);
+                    const isNoAns = reply.toLowerCase().includes('belum tersedia di');
                     return { answer: reply, has_answer: !isNoAns, mode: 'gemini_llm' };
                 }
             }
@@ -206,9 +272,9 @@ ATURAN KETAT:
 
     const best = topKBs[0];
     return {
-        answer: `Berdasarkan Knowledge Base **${best.title}** (Kategori: *${best.category}*):\n\n${best.answer}`,
+        answer: formatNaturalFallback(question, best),
         has_answer: true,
-        mode: 'kb_direct_synthesis'
+        mode: 'natural_conversational_fallback'
     };
 }
 

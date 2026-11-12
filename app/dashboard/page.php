@@ -9,7 +9,7 @@ require_once __DIR__ . '/../../components/DashboardCard.php';
 function renderDashboardPage(bool $isActive = false): void
 {
     ?>
-    <section id="page-dashboard" class="page-section <?= $isActive ? 'active' : '' ?>">
+    <section id="page-dashboard" class="page-section scrollable-page <?= $isActive ? 'active' : '' ?>">
         <div class="stat-grid">
             <?php
             renderDashboardCard(

@@ -60,6 +60,18 @@ function askSample(text) {
     sendChat();
 }
 
+function getCurrentTimeStr() {
+    const now = new Date();
+    return now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.', ':');
+}
+
+function toggleSourceDrawer() {
+    const drawer = document.getElementById('sourceDrawer');
+    if (drawer) {
+        drawer.classList.toggle('open');
+    }
+}
+
 async function sendChat() {
     const input = document.getElementById('chatInput');
     const btn = document.getElementById('btnSendChat');
@@ -70,9 +82,8 @@ async function sendChat() {
     appendChatMessage('user', question);
     input.value = '';
     btn.disabled = true;
-    btn.textContent = 'Memproses...';
 
-    const loadingId = appendChatMessage('bot', 'Sedang menormalisasi pertanyaan, mencari di Knowledge Base, dan menghitung Relevance Score...');
+    const loadingId = appendChatMessage('bot', 'Sebentar ya, saya bantu cek informasinya...');
 
     try {
         const res = await fetch('api/chat.php', {
@@ -81,14 +92,24 @@ async function sendChat() {
             body: JSON.stringify({ question })
         });
         const data = await res.json();
+        const replyText = data.answer || data.error || 'Terjadi kesalahan.';
 
-        updateChatMessage(loadingId, data.answer || data.error || 'Terjadi kesalahan.', data);
+        updateChatMessage(loadingId, replyText, data);
         renderSourceReference(data);
+
+        // Perbarui pratinjau pada daftar percakapan tengah
+        const previewEl = document.getElementById('threadLastPreview');
+        const timeEl = document.getElementById('threadLastTime');
+        if (previewEl) {
+            previewEl.textContent = replyText.replace(/\s+/g, ' ').substring(0, 55) + '...';
+        }
+        if (timeEl) {
+            timeEl.textContent = getCurrentTimeStr();
+        }
     } catch (err) {
-        updateChatMessage(loadingId, 'Gagal menghubungi server: ' + err.message);
+        updateChatMessage(loadingId, 'Maaf ya, koneksi ke server sedang terkendala: ' + err.message);
     } finally {
         btn.disabled = false;
-        btn.textContent = 'Kirim Pertanyaan';
     }
 }
 
@@ -99,16 +120,18 @@ function appendChatMessage(role, text) {
     div.id = id;
     div.className = 'msg ' + (role === 'user' ? 'msg-user' : 'msg-bot');
 
-    const sender = document.createElement('div');
-    sender.className = 'msg-sender';
-    sender.textContent = role === 'user' ? 'Pengguna' : 'Asisten Informasi Kabupaten Purworejo';
-
     const body = document.createElement('div');
     body.className = 'msg-text';
     body.textContent = text;
 
-    div.appendChild(sender);
+    const timeRow = document.createElement('div');
+    timeRow.className = 'msg-time';
+    timeRow.innerHTML = role === 'user'
+        ? `<span>${getCurrentTimeStr()}</span> <span class="msg-check">&check;&check;</span>`
+        : `<span>${getCurrentTimeStr()}</span>`;
+
     div.appendChild(body);
+    div.appendChild(timeRow);
     box.appendChild(div);
     box.scrollTop = box.scrollHeight;
     return id;
@@ -119,26 +142,15 @@ function updateChatMessage(id, text, meta = null) {
     if (!div) return;
     div.innerHTML = '';
 
-    const sender = document.createElement('div');
-    sender.className = 'msg-sender';
-    sender.textContent = 'Asisten Informasi Kabupaten Purworejo';
-    div.appendChild(sender);
-
     const contentEl = document.createElement('div');
     contentEl.className = 'msg-text';
     contentEl.textContent = text;
     div.appendChild(contentEl);
 
-    if (meta && meta.ok) {
-        const metaRow = document.createElement('div');
-        metaRow.className = 'msg-meta';
-        const statusBadge = meta.has_answer
-            ? `<span class="badge badge-green">Sumber: ${meta.top_kb_count} Knowledge Base</span>`
-            : `<span class="badge badge-amber">Tidak Ditemukan di KB (Anti-Halusinasi)</span>`;
-
-        metaRow.innerHTML = `${statusBadge} <span>Waktu Proses: ${meta.response_time_ms} ms</span>`;
-        div.appendChild(metaRow);
-    }
+    const timeRow = document.createElement('div');
+    timeRow.className = 'msg-time';
+    timeRow.innerHTML = `<span>${getCurrentTimeStr()}</span>`;
+    div.appendChild(timeRow);
 
     const box = document.getElementById('chatBox');
     box.scrollTop = box.scrollHeight;

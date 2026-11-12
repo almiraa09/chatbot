@@ -1,19 +1,19 @@
 <?php
 /**
  * components/SourceReference.php
- * Komponen panel Sumber Knowledge Base & hasil Normalisasi / Relevance Scoring
+ * Drawer Info (i) untuk melihat proses Normalisasi & Sumber Top 3-5 Knowledge Base
  */
 
 function renderSourceReference(): void
 {
     ?>
-    <div class="card source-reference-panel">
-        <div class="card-header">
+    <aside id="sourceDrawer" class="source-drawer">
+        <div class="card-header" style="margin-bottom:0.85rem;padding-bottom:0.65rem;">
             <div>
-                <div class="card-title">Sumber Knowledge Base &amp; Skor Relevansi</div>
-                <div class="card-subtitle">Transparansi proses Normalisasi &rarr; Search &rarr; Top 3&ndash;5 KB</div>
+                <div class="card-title" style="font-size:0.95rem;">Detail Pencarian KB</div>
+                <div class="card-subtitle">Transparansi Retrieval &amp; Scoring</div>
             </div>
-            <span class="badge badge-green">Top 3&ndash;5 KB</span>
+            <button type="button" class="btn btn-sm btn-outline" onclick="toggleSourceDrawer()">Tutup &times;</button>
         </div>
 
         <div class="norm-box">
@@ -31,15 +31,15 @@ function renderSourceReference(): void
             </div>
         </div>
 
-        <div class="source-list-header">
-            <span>Daftar Referensi Knowledge Base Terpilih</span>
+        <div style="font-size:0.82rem;font-weight:700;margin-bottom:0.5rem;">
+            Top 3&ndash;5 Knowledge Base Terpilih
         </div>
 
-        <div id="inspSources" class="source-list-body">
-            <div class="empty-state-small">
-                Belum ada pencarian. Ajukan pertanyaan pada panel Chatbot untuk melihat dokumen Knowledge Base yang menjadi sumber jawaban beserta skor relevansinya.
+        <div id="inspSources">
+            <div style="font-size:0.8rem;color:#667781;background:#f8fafc;padding:0.85rem;border-radius:8px;border:1px dashed #cbd5e1;">
+                Kirim pertanyaan pada ruang percakapan untuk melihat referensi Knowledge Base di balik layar.
             </div>
         </div>
-    </div>
+    </aside>
     <?php
 }

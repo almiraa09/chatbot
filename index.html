@@ -3,353 +3,412 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chatbot Knowledge Base Kabupaten Purworejo — Prototype PoC</title>
+    <title>Purworejo — Chatbot Knowledge Base</title>
     <link rel="stylesheet" href="/public/css/style.css">
 </head>
 <body data-initial-tab="page-chatbot">
 
-    <header class="topbar">
-        <div class="brand">
-            <div class="brand-badge">PURWOREJO</div>
+    <div class="app-shell">
+        <!-- AREA 1: SIDEBAR KIRI SEDERHANA -->
+        <aside class="left-sidebar">
             <div>
-                <h1>Chatbot Knowledge Base Kabupaten Purworejo</h1>
-                <p>Proof of Concept (PoC) &bull; Knowledge Base sebagai Sumber Informasi Utama</p>
-            </div>
-        </div>
-        <nav class="nav-tabs">
-            <button type="button" class="nav-btn active" data-target="page-chatbot" data-route="chat">1. Chatbot</button>
-            <button type="button" class="nav-btn" data-target="page-kb" data-route="knowledge-base">2. Knowledge Base</button>
-            <button type="button" class="nav-btn" data-target="page-testing" data-route="testing">3. Testing</button>
-            <button type="button" class="nav-btn" data-target="page-dashboard" data-route="dashboard">4. Dashboard</button>
-        </nav>
-    </header>
-
-    <main class="container">
-        <div class="pipeline-bar">
-            <span>ALUR SISTEM:</span>
-            <span class="pipeline-step">USER</span> &rarr;
-            <span class="pipeline-step">CHATBOT</span> &rarr;
-            <span class="pipeline-step">NORMALIZE</span> &rarr;
-            <span class="pipeline-step">SEARCH KB</span> &rarr;
-            <span class="pipeline-step">RELEVANCE SCORING</span> &rarr;
-            <span class="pipeline-step">TOP 3&ndash;5 KB</span> &rarr;
-            <span class="pipeline-step">AI / LLM</span> &rarr;
-            <span class="pipeline-step">ANSWER</span> &rarr;
-            <span class="pipeline-step">SOURCE</span> &rarr;
-            <span class="pipeline-step">EVALUATION</span>
-        </div>
-
-        <!-- 1. HALAMAN /chat -->
-        <section id="page-chatbot" class="page-section active">
-            <div class="chat-grid">
-                <div class="card chat-interface-panel">
-                    <div class="card-header">
-                        <div>
-                            <div class="card-title">Layanan Tanya Jawab Knowledge Base</div>
-                            <div class="card-subtitle">Kabupaten Purworejo &bull; Jawaban Berbasis Data Resmi</div>
-                        </div>
-                        <span class="badge badge-blue">Anti-Halusinasi Aktif</span>
+                <div class="sidebar-brand">
+                    <div class="brand-crest">PWR</div>
+                    <div class="brand-text">
+                        <h1>Purworejo</h1>
+                        <p>Chatbot Knowledge Base</p>
                     </div>
+                </div>
 
-                    <div id="chatBox" class="chat-box">
-                        <div class="msg msg-bot">
-                            <div class="msg-sender">Asisten Informasi Kabupaten Purworejo</div>
-                            <div class="msg-text">Selamat datang di Prototype Chatbot Knowledge Base Pemerintah Kabupaten Purworejo.
+                <nav class="sidebar-nav">
+                    <button type="button" class="nav-btn active" data-target="page-chatbot" data-route="chat">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                        <span>Chatbot</span>
+                    </button>
+                    <button type="button" class="nav-btn" data-target="page-kb" data-route="knowledge-base">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+                        <span>Knowledge Base</span>
+                    </button>
+                    <button type="button" class="nav-btn" data-target="page-testing" data-route="testing">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M10 2v7.31"/><path d="M14 9.3V1.99"/><path d="M8.5 2h7"/><path d="M14 9.3a6.5 6.5 0 1 1-4 0"/><path d="M5.52 16h12.96"/></svg>
+                        <span>Testing</span>
+                    </button>
+                    <button type="button" class="nav-btn" data-target="page-dashboard" data-route="dashboard">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                        <span>Dashboard</span>
+                    </button>
+                </nav>
+            </div>
 
-Silakan ajukan pertanyaan seputar layanan publik, administrasi kependudukan, perizinan, kesehatan, atau informasi daerah. Sistem hanya akan menjawab berdasarkan data resmi di dalam Knowledge Base.</div>
-                            <div class="msg-meta">
-                                <span class="badge badge-blue">Sumber Utama: Knowledge Base Resmi</span>
+            <div class="sidebar-footer">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                <div>
+                    <strong>PoC</strong>
+                    <span>Kabupaten Purworejo</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- WORKSPACE KANAN -->
+        <main class="main-workspace">
+
+            <!-- 1. HALAMAN CHATBOT (3 AREA) -->
+            <section id="page-chatbot" class="page-section active">
+                <div class="chat-three-pane">
+                    <!-- Area Tengah: Daftar Percakapan -->
+                    <div class="chat-middle-list">
+                        <div class="chat-list-top">
+                            <div class="chat-list-title-row">
+                                <h2>Chatbot Purworejo</h2>
+                                <div class="chat-list-icons">
+                                    <button type="button" class="icon-btn" title="Cari di Knowledge Base" onclick="switchTab('page-kb', 'knowledge-base')">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                                    </button>
+                                    <button type="button" class="icon-btn" title="Informasi Retrieval KB" onclick="toggleSourceDrawer()">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="chat-list-status">
+                                <span class="online-dot"></span>
+                                <span>Siap membantu informasi seputar Kabupaten Purworejo</span>
+                            </div>
+                        </div>
+
+                        <div class="chat-thread-item">
+                            <div class="bot-avatar">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg>
+                            </div>
+                            <div class="thread-content">
+                                <div class="thread-header">
+                                    <span class="thread-name">Layanan Informasi Purworejo</span>
+                                    <span id="threadLastTime" class="thread-time">Online</span>
+                                </div>
+                                <div id="threadLastPreview" class="thread-preview">Silakan tanyakan informasi layanan Purworejo...</div>
+                            </div>
+                        </div>
+
+                        <div class="chat-list-prompts">
+                            <div class="prompts-title">Topik Pertanyaan Cepat</div>
+                            <div class="prompt-pill-list">
+                                <button type="button" class="chip" onclick="askSample('Dimana alamat dan jam pelayanan Dinas Perhubungan Purworejo?')">📍 Alamat &amp; jam pelayanan Dinhub</button>
+                                <button type="button" class="chip" onclick="askSample('Apa syarat pendirian badan usaha CV atau PT?')">📋 Syarat pendirian usaha CV / PT</button>
+                                <button type="button" class="chip" onclick="askSample('Bagaimana syarat Asuransi Usaha Tani Padi (AUTP)?')">🌾 Asuransi Usaha Tani Padi (AUTP)</button>
+                                <button type="button" class="chip" onclick="askSample('Apa syarat donor darah di PMI Purworejo?')">🩸 Syarat donor darah PMI Purworejo</button>
+                                <button type="button" class="chip" onclick="askSample('Siapa pemenang Piala Dunia 2022?')">🛡️ Uji pertanyaan di luar KB</button>
                             </div>
                         </div>
                     </div>
 
-                    <div class="quick-chips-wrap">
-                        <span class="quick-chips-label">Contoh Pertanyaan Uji:</span>
-                        <div class="quick-chips">
-                            <button type="button" class="chip" onclick="askSample('Dimana alamat dan jam pelayanan Dinas Perhubungan Purworejo?')">Alamat &amp; Jam Dinhub</button>
-                            <button type="button" class="chip" onclick="askSample('Apa syarat pendirian badan usaha CV atau PT?')">Syarat Pendirian CV/PT</button>
-                            <button type="button" class="chip" onclick="askSample('Bagaimana syarat Asuransi Usaha Tani Padi (AUTP)?')">Asuransi Tani Padi</button>
-                            <button type="button" class="chip" onclick="askSample('Siapa pemenang Piala Dunia 2022?')">Uji Pertanyaan di Luar KB</button>
+                    <!-- Area Kanan: Ruang Percakapan Utama -->
+                    <div class="chat-right-conversation">
+                        <header class="chat-conv-header">
+                            <div class="conv-header-left">
+                                <div class="bot-avatar" style="width:38px;height:38px;">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg>
+                                </div>
+                                <div>
+                                    <div class="conv-header-title">Layanan Informasi Purworejo</div>
+                                    <div class="conv-header-status">Online</div>
+                                </div>
+                            </div>
+                            <div>
+                                <button type="button" class="icon-btn" title="Lihat Sumber Knowledge Base (Retrieval Info)" onclick="toggleSourceDrawer()">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                                </button>
+                            </div>
+                        </header>
+
+                        <div id="chatBox" class="chat-box">
+                            <div class="date-chip-row">
+                                <span class="date-chip">Hari ini</span>
+                            </div>
+                            <div class="msg msg-bot">
+                                <div class="msg-text">Halo! 👋
+Selamat datang di Layanan Informasi Kabupaten Purworejo.
+
+Ada yang bisa saya bantu hari ini? Silakan tanyakan seputar layanan publik, administrasi kependudukan, perizinan, kesehatan, atau informasi daerah lainnya ya ✨</div>
+                                <div class="msg-time">Online</div>
+                            </div>
+                        </div>
+
+                        <form class="chat-composer-bar" onsubmit="event.preventDefault(); sendChat();">
+                            <div class="composer-input-pill">
+                                <span class="composer-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="20" height="20"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+                                </span>
+                                <input type="text" id="chatInput" placeholder="Ketik pertanyaan Anda..." autocomplete="off">
+                                <span class="composer-icon" title="Lihat Sumber KB" style="cursor:pointer;" onclick="toggleSourceDrawer()">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="19" height="19"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+                                </span>
+                            </div>
+                            <button type="submit" id="btnSendChat" class="btn-send-circle" title="Kirim Pertanyaan">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="19" height="19"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                            </button>
+                        </form>
+
+                        <aside id="sourceDrawer" class="source-drawer">
+                            <div class="card-header" style="margin-bottom:0.85rem;padding-bottom:0.65rem;">
+                                <div>
+                                    <div class="card-title" style="font-size:0.95rem;">Detail Pencarian KB</div>
+                                    <div class="card-subtitle">Transparansi Retrieval &amp; Scoring</div>
+                                </div>
+                                <button type="button" class="btn btn-sm btn-outline" onclick="toggleSourceDrawer()">Tutup &times;</button>
+                            </div>
+                            <div class="norm-box">
+                                <div class="norm-row">
+                                    <span class="norm-label">Pertanyaan Asli:</span>
+                                    <span id="inspOriginal" class="norm-value">-</span>
+                                </div>
+                                <div class="norm-row">
+                                    <span class="norm-label">Hasil Normalisasi:</span>
+                                    <code id="inspNormalized" class="norm-code">-</code>
+                                </div>
+                                <div class="norm-row">
+                                    <span class="norm-label">Kata Kunci (Tokens):</span>
+                                    <div id="inspTokens" class="norm-tokens">-</div>
+                                </div>
+                            </div>
+                            <div style="font-size:0.82rem;font-weight:700;margin-bottom:0.5rem;">Top 3&ndash;5 Knowledge Base Terpilih</div>
+                            <div id="inspSources">
+                                <div style="font-size:0.8rem;color:#667781;background:#f8fafc;padding:0.85rem;border-radius:8px;border:1px dashed #cbd5e1;">
+                                    Kirim pertanyaan pada ruang percakapan untuk melihat referensi Knowledge Base di balik layar.
+                                </div>
+                            </div>
+                        </aside>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. HALAMAN KNOWLEDGE BASE -->
+            <section id="page-kb" class="page-section scrollable-page">
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-title">Database Knowledge Base Kabupaten Purworejo</div>
+                            <div id="kbStatusBanner" class="card-subtitle">Memeriksa status database Supabase...</div>
+                        </div>
+                        <div style="display:flex;gap:0.5rem;align-items:center;">
+                            <button type="button" id="btnImportKb" class="btn" onclick="importKnowledgeBase()">Sinkronisasi Status Supabase (2.229 Record)</button>
                         </div>
                     </div>
+                    <div id="importProgressMsg" style="font-size:0.84rem;margin-bottom:0.75rem;"></div>
+                    <div class="search-box-bar">
+                        <div class="search-input-wrap">
+                            <input type="text" id="kbSearchInput" placeholder="Cari judul layanan, instansi, kata kunci, atau isi Knowledge Base..." onkeydown="if(event.key==='Enter') loadKbTable(1)">
+                        </div>
+                        <div class="search-filter-wrap">
+                            <select id="kbCategoryFilter" onchange="loadKbTable(1)">
+                                <option value="">Semua Kategori Layanan</option>
+                            </select>
+                        </div>
+                        <button class="btn" onclick="loadKbTable(1)">Cari Knowledge Base</button>
+                    </div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th style="width:170px;">Kategori &amp; ID</th>
+                                    <th style="width:250px;">Judul Knowledge Base</th>
+                                    <th>Ringkasan Jawaban / Informasi</th>
+                                    <th style="width:210px;">Kata Kunci</th>
+                                    <th style="width:100px;">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="kbTableBody">
+                                <tr><td colspan="5" style="text-align:center;color:#64748b;">Memuat daftar Knowledge Base...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pagination-bar">
+                        <span id="kbPageInfo" class="pagination-info">Halaman 1</span>
+                        <div style="display:flex;gap:0.45rem;">
+                            <button type="button" id="btnPrevKb" class="btn btn-sm btn-outline" onclick="loadKbTable(currentKbPage - 1)">&laquo; Sebelumnya</button>
+                            <button type="button" id="btnNextKb" class="btn btn-sm btn-outline" onclick="loadKbTable(currentKbPage + 1)">Berikutnya &raquo;</button>
+                        </div>
+                    </div>
+                </div>
 
-                    <form class="chat-input-row" onsubmit="event.preventDefault(); sendChat();">
-                        <input type="text" id="chatInput" placeholder="Ketik pertanyaan Anda mengenai layanan Kabupaten Purworejo..." autocomplete="off">
-                        <button type="submit" id="btnSendChat" class="btn">Kirim Pertanyaan</button>
+                <div id="kbDetailModal" class="kb-modal-backdrop" style="display:none;" onclick="if(event.target===this) closeKbDetail()">
+                    <div class="kb-modal-card">
+                        <div class="card-header">
+                            <div>
+                                <span id="detailCategory" class="badge badge-blue">Kategori</span>
+                                <h3 id="detailTitle" class="card-title" style="margin-top:0.35rem;">Judul Knowledge Base</h3>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline" onclick="closeKbDetail()">Tutup &times;</button>
+                        </div>
+                        <div class="kb-detail-meta">
+                            <div><strong>ID Record:</strong> <code id="detailId">-</code></div>
+                            <div><strong>Sumber / Referensi:</strong> <span id="detailSourceRef">-</span></div>
+                        </div>
+                        <div class="kb-detail-section">
+                            <div class="kb-detail-label">Isi Informasi / Jawaban Resmi:</div>
+                            <div id="detailAnswer" class="kb-detail-answer">-</div>
+                        </div>
+                        <div class="kb-detail-section">
+                            <div class="kb-detail-label">Kata Kunci Terdaftar (Keywords):</div>
+                            <div id="detailKeywords" class="kb-detail-keywords">-</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. HALAMAN TESTING -->
+            <section id="page-testing" class="page-section scrollable-page">
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-title">Panel Pengujian &amp; Evaluasi Akurasi Prototype</div>
+                            <div id="testSummaryBanner" class="card-subtitle">Memuat ringkasan hasil pengujian...</div>
+                        </div>
+                        <button type="button" id="btnRunBatchTest" class="btn" onclick="runPresetBatchTests()">Jalankan 8 Pertanyaan Uji Standar</button>
+                    </div>
+                    <form class="testing-form-bar" onsubmit="event.preventDefault(); runSingleCustomTest();">
+                        <input type="text" id="testQuestionInput" placeholder="Masukkan pertanyaan uji untuk menilai ketepatan pencarian Knowledge Base..." autocomplete="off">
+                        <input type="text" id="testExpectedInput" placeholder="Ekspektasi Topik KB (atau: TIDAK ADA DI KB)" autocomplete="off">
+                        <button type="submit" id="btnRunSingleTest" class="btn">Uji Pertanyaan</button>
                     </form>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Pertanyaan Uji &amp; Hasil Normalisasi</th>
+                                    <th style="width:260px;">Top 3&ndash;5 KB Terpilih (Skor)</th>
+                                    <th>Jawaban Berdasarkan KB</th>
+                                    <th style="width:125px;">Status Akurasi</th>
+                                    <th style="width:195px;">Penilaian Penguji</th>
+                                </tr>
+                            </thead>
+                            <tbody id="testTableBody">
+                                <tr><td colspan="5" style="text-align:center;color:#64748b;">Memuat daftar pengujian...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. HALAMAN DASHBOARD -->
+            <section id="page-dashboard" class="page-section scrollable-page">
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">1. Total Knowledge Base</div>
+                        <div id="statTotalKb" class="stat-value">0</div>
+                        <div class="stat-sub">Target PoC: ~2.229 record di Supabase</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">2. Total Interaksi Pertanyaan</div>
+                        <div id="statTotalChats" class="stat-value">0</div>
+                        <div class="stat-sub">Pertanyaan pengguna yang telah diproses</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">3. Pengujian Terverifikasi</div>
+                        <div id="statTotalTests" class="stat-value">0 / 0</div>
+                        <div class="stat-sub">Jawaban Akurat dibanding Total Dinilai</div>
+                    </div>
+                    <div class="stat-card stat-card-highlight">
+                        <div class="stat-label">4. Tingkat Akurasi Prototype</div>
+                        <div id="statAccuracy" class="stat-value">0%</div>
+                        <div class="stat-sub">Persentase ketepatan dari halaman Testing</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">5. Rata-rata Waktu Respons</div>
+                        <div id="statAvgTime" class="stat-value">0 ms</div>
+                        <div class="stat-sub">Kecepatan Normalisasi + Search + Scoring</div>
+                    </div>
                 </div>
 
-                <div class="card source-reference-panel">
+                <div class="card">
                     <div class="card-header">
                         <div>
-                            <div class="card-title">Sumber Knowledge Base &amp; Skor Relevansi</div>
-                            <div class="card-subtitle">Transparansi proses Normalisasi &rarr; Search &rarr; Top 3&ndash;5 KB</div>
+                            <div class="card-title">Matriks Pembuktian Proof of Concept (PoC)</div>
+                            <div class="card-subtitle">Status ketercapaian 7 indikator utama prototype Kabupaten Purworejo</div>
                         </div>
-                        <span class="badge badge-green">Top 3&ndash;5 KB</span>
+                        <button type="button" class="btn btn-sm btn-outline" onclick="loadDashboardStats()">Segarkan Data</button>
                     </div>
-
-                    <div class="norm-box">
-                        <div class="norm-row">
-                            <span class="norm-label">Pertanyaan Asli:</span>
-                            <span id="inspOriginal" class="norm-value">-</span>
-                        </div>
-                        <div class="norm-row">
-                            <span class="norm-label">Hasil Normalisasi:</span>
-                            <code id="inspNormalized" class="norm-code">-</code>
-                        </div>
-                        <div class="norm-row">
-                            <span class="norm-label">Kata Kunci (Tokens):</span>
-                            <div id="inspTokens" class="norm-tokens">-</div>
-                        </div>
-                    </div>
-
-                    <div class="source-list-header">
-                        <span>Daftar Referensi Knowledge Base Terpilih</span>
-                    </div>
-
-                    <div id="inspSources" class="source-list-body">
-                        <div class="empty-state-small">
-                            Belum ada pencarian. Ajukan pertanyaan pada panel Chatbot untuk melihat dokumen Knowledge Base yang menjadi sumber jawaban beserta skor relevansinya.
-                        </div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th style="width:50px;">No</th>
+                                    <th>Indikator Pembuktian PoC</th>
+                                    <th>Mekanisme pada Sistem</th>
+                                    <th style="width:140px;">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td><strong>Knowledge Base dapat dimasukkan ke database</strong></td>
+                                    <td>2.229 record dari <code>knowledge-base-2026-11-10.json</code> tersimpan di tabel <code>knowledge_base</code> Supabase.</td>
+                                    <td><span id="poc1" class="badge badge-amber">Siap Diuji</span></td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td><strong>Knowledge Base dapat dicari berdasarkan pertanyaan pengguna</strong></td>
+                                    <td>Pencarian kata kunci terukur setelah melewati tahap <code>Normalizer</code> &amp; ekspansi sinonim.</td>
+                                    <td><span id="poc2" class="badge badge-amber">Siap Diuji</span></td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td><strong>Sistem dapat memilih Knowledge Base yang relevan</strong></td>
+                                    <td>Kalkulasi <code>Relevance Scoring</code> (Judul, Keywords, Kategori, Isi) untuk mengambil <strong>Top 3&ndash;5 KB</strong>.</td>
+                                    <td><span id="poc3" class="badge badge-amber">Siap Diuji</span></td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td><strong>AI membuat jawaban berdasarkan Knowledge Base tersebut</strong></td>
+                                    <td>Jawaban disusun dengan bahasa percakapan ramah murni berdasarkan fakta Knowledge Base terpilih.</td>
+                                    <td><span id="poc4" class="badge badge-amber">Siap Diuji</span></td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td><strong>Sistem tidak mengarang informasi jika KB tidak memiliki jawabannya</strong></td>
+                                    <td>Gatekeeper otomatis menolak menjawab apabila tidak ada Knowledge Base yang memenuhi ambang skor relevansi.</td>
+                                    <td><span id="poc5" class="badge badge-green">Terbukti &check;</span></td>
+                                </tr>
+                                <tr>
+                                    <td>6</td>
+                                    <td><strong>Sistem dapat diuji menggunakan sejumlah pertanyaan</strong></td>
+                                    <td>Modul <code>/testing</code> menyediakan uji satuan dan 8 pertanyaan uji standar (positif &amp; luar KB).</td>
+                                    <td><span id="poc6" class="badge badge-amber">Siap Diuji</span></td>
+                                </tr>
+                                <tr>
+                                    <td>7</td>
+                                    <td><strong>Hasil pengujian dapat digunakan untuk menilai akurasi prototype</strong></td>
+                                    <td>Penilaian <em>Akurat / Tidak Akurat</em> dihitung otomatis menjadi persentase akurasi pada Dashboard.</td>
+                                    <td><span id="poc7" class="badge badge-amber">Siap Diuji</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-            </div>
-        </section>
 
-        <!-- 2. HALAMAN /knowledge-base -->
-        <section id="page-kb" class="page-section">
-            <div class="card">
-                <div class="card-header">
-                    <div>
-                        <div class="card-title">Database Knowledge Base Kabupaten Purworejo</div>
-                        <div id="kbStatusBanner" class="card-subtitle">Memeriksa status database Supabase...</div>
-                    </div>
-                    <div style="display:flex;gap:0.5rem;align-items:center;">
-                        <button type="button" id="btnImportKb" class="btn" onclick="importKnowledgeBase()">Sinkronisasi Status Supabase (2.229 Record)</button>
-                    </div>
-                </div>
-
-                <div id="importProgressMsg" style="font-size:0.84rem;margin-bottom:0.75rem;"></div>
-
-                <div class="search-box-bar">
-                    <div class="search-input-wrap">
-                        <input type="text" id="kbSearchInput" placeholder="Cari judul layanan, instansi, kata kunci, atau isi Knowledge Base..." onkeydown="if(event.key==='Enter') loadKbTable(1)">
-                    </div>
-                    <div class="search-filter-wrap">
-                        <select id="kbCategoryFilter" onchange="loadKbTable(1)">
-                            <option value="">Semua Kategori Layanan</option>
-                        </select>
-                    </div>
-                    <button class="btn" onclick="loadKbTable(1)">Cari Knowledge Base</button>
-                </div>
-
-                <div class="table-wrap">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th style="width:170px;">Kategori &amp; ID</th>
-                                <th style="width:250px;">Judul Knowledge Base</th>
-                                <th>Ringkasan Jawaban / Informasi</th>
-                                <th style="width:210px;">Kata Kunci</th>
-                                <th style="width:100px;">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody id="kbTableBody">
-                            <tr><td colspan="5" style="text-align:center;color:#64748b;">Memuat daftar Knowledge Base...</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="pagination-bar">
-                    <span id="kbPageInfo" class="pagination-info">Halaman 1</span>
-                    <div style="display:flex;gap:0.45rem;">
-                        <button type="button" id="btnPrevKb" class="btn btn-sm btn-outline" onclick="loadKbTable(currentKbPage - 1)">&laquo; Sebelumnya</button>
-                        <button type="button" id="btnNextKb" class="btn btn-sm btn-outline" onclick="loadKbTable(currentKbPage + 1)">Berikutnya &raquo;</button>
-                    </div>
-                </div>
-            </div>
-
-            <div id="kbDetailModal" class="kb-modal-backdrop" style="display:none;" onclick="if(event.target===this) closeKbDetail()">
-                <div class="kb-modal-card">
+                <div class="card">
                     <div class="card-header">
                         <div>
-                            <span id="detailCategory" class="badge badge-blue">Kategori</span>
-                            <h3 id="detailTitle" class="card-title" style="margin-top:0.35rem;">Judul Knowledge Base</h3>
+                            <div class="card-title">Log Pertanyaan Belum Terjawab (Evaluasi Sinonim &amp; Gap Knowledge Base)</div>
+                            <div class="card-subtitle">Pertanyaan yang ditolak oleh Gatekeeper Anti-Halusinasi karena belum ditemukan di Knowledge Base</div>
                         </div>
-                        <button type="button" class="btn btn-sm btn-outline" onclick="closeKbDetail()">Tutup &times;</button>
                     </div>
-                    <div class="kb-detail-meta">
-                        <div><strong>ID Record:</strong> <code id="detailId">-</code></div>
-                        <div><strong>Sumber / Referensi:</strong> <span id="detailSourceRef">-</span></div>
-                    </div>
-                    <div class="kb-detail-section">
-                        <div class="kb-detail-label">Isi Informasi / Jawaban Resmi:</div>
-                        <div id="detailAnswer" class="kb-detail-answer">-</div>
-                    </div>
-                    <div class="kb-detail-section">
-                        <div class="kb-detail-label">Kata Kunci Terdaftar (Keywords):</div>
-                        <div id="detailKeywords" class="kb-detail-keywords">-</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 3. HALAMAN /testing -->
-        <section id="page-testing" class="page-section">
-            <div class="card">
-                <div class="card-header">
-                    <div>
-                        <div class="card-title">Panel Pengujian &amp; Evaluasi Akurasi Prototype</div>
-                        <div id="testSummaryBanner" class="card-subtitle">Memuat ringkasan hasil pengujian...</div>
-                    </div>
-                    <button type="button" id="btnRunBatchTest" class="btn" onclick="runPresetBatchTests()">Jalankan 8 Pertanyaan Uji Standar</button>
-                </div>
-
-                <form class="testing-form-bar" onsubmit="event.preventDefault(); runSingleCustomTest();">
-                    <input type="text" id="testQuestionInput" placeholder="Masukkan pertanyaan uji untuk menilai ketepatan pencarian Knowledge Base..." autocomplete="off">
-                    <input type="text" id="testExpectedInput" placeholder="Ekspektasi Topik KB (atau: TIDAK ADA DI KB)" autocomplete="off">
-                    <button type="submit" id="btnRunSingleTest" class="btn">Uji Pertanyaan</button>
-                </form>
-
-                <div class="table-wrap">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Pertanyaan Uji &amp; Hasil Normalisasi</th>
-                                <th style="width:260px;">Top 3&ndash;5 KB Terpilih (Skor)</th>
-                                <th>Jawaban Berdasarkan KB</th>
-                                <th style="width:125px;">Status Akurasi</th>
-                                <th style="width:195px;">Penilaian Penguji</th>
-                            </tr>
-                        </thead>
-                        <tbody id="testTableBody">
-                            <tr><td colspan="5" style="text-align:center;color:#64748b;">Memuat daftar pengujian...</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
-
-        <!-- 4. HALAMAN /dashboard -->
-        <section id="page-dashboard" class="page-section">
-            <div class="stat-grid">
-                <div class="stat-card">
-                    <div class="stat-label">1. Total Knowledge Base</div>
-                    <div id="statTotalKb" class="stat-value">0</div>
-                    <div class="stat-sub">Target PoC: ~2.229 record di Supabase</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">2. Total Interaksi Pertanyaan</div>
-                    <div id="statTotalChats" class="stat-value">0</div>
-                    <div class="stat-sub">Pertanyaan pengguna yang telah diproses</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">3. Pengujian Terverifikasi</div>
-                    <div id="statTotalTests" class="stat-value">0 / 0</div>
-                    <div class="stat-sub">Jawaban Akurat dibanding Total Dinilai</div>
-                </div>
-                <div class="stat-card stat-card-highlight">
-                    <div class="stat-label">4. Tingkat Akurasi Prototype</div>
-                    <div id="statAccuracy" class="stat-value">0%</div>
-                    <div class="stat-sub">Persentase ketepatan dari halaman Testing</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">5. Rata-rata Waktu Respons</div>
-                    <div id="statAvgTime" class="stat-value">0 ms</div>
-                    <div class="stat-sub">Kecepatan Normalisasi + Search + Scoring</div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <div>
-                        <div class="card-title">Matriks Pembuktian Proof of Concept (PoC)</div>
-                        <div class="card-subtitle">Status ketercapaian 7 indikator utama prototype Kabupaten Purworejo</div>
-                    </div>
-                    <button type="button" class="btn btn-sm btn-outline" onclick="loadDashboardStats()">Segarkan Data</button>
-                </div>
-                <div class="table-wrap">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th style="width:50px;">No</th>
-                                <th>Indikator Pembuktian PoC</th>
-                                <th>Mekanisme pada Sistem</th>
-                                <th style="width:140px;">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td><strong>Knowledge Base dapat dimasukkan ke database</strong></td>
-                                <td>2.229 record dari <code>knowledge-base-2026-11-10.json</code> tersimpan di tabel <code>knowledge_base</code> Supabase.</td>
-                                <td><span id="poc1" class="badge badge-amber">Siap Diuji</span></td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td><strong>Knowledge Base dapat dicari berdasarkan pertanyaan pengguna</strong></td>
-                                <td>Pencarian kata kunci terukur setelah melewati tahap <code>Normalizer</code> &amp; ekspansi sinonim.</td>
-                                <td><span id="poc2" class="badge badge-amber">Siap Diuji</span></td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td><strong>Sistem dapat memilih Knowledge Base yang relevan</strong></td>
-                                <td>Kalkulasi <code>Relevance Scoring</code> (Judul, Keywords, Kategori, Isi) untuk mengambil <strong>Top 3&ndash;5 KB</strong>.</td>
-                                <td><span id="poc3" class="badge badge-amber">Siap Diuji</span></td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td><strong>AI membuat jawaban berdasarkan Knowledge Base tersebut</strong></td>
-                                <td>Jawaban mengacu langsung pada dokumen Knowledge Base terpilih beserta daftar sumber referensinya.</td>
-                                <td><span id="poc4" class="badge badge-amber">Siap Diuji</span></td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td><strong>Sistem tidak mengarang informasi jika KB tidak memiliki jawabannya</strong></td>
-                                <td>Gatekeeper otomatis menolak menjawab apabila tidak ada Knowledge Base yang memenuhi ambang skor relevansi.</td>
-                                <td><span id="poc5" class="badge badge-green">Terbukti &check;</span></td>
-                            </tr>
-                            <tr>
-                                <td>6</td>
-                                <td><strong>Sistem dapat diuji menggunakan sejumlah pertanyaan</strong></td>
-                                <td>Modul <code>/testing</code> menyediakan uji satuan dan 8 pertanyaan uji standar (positif &amp; luar KB).</td>
-                                <td><span id="poc6" class="badge badge-amber">Siap Diuji</span></td>
-                            </tr>
-                            <tr>
-                                <td>7</td>
-                                <td><strong>Hasil pengujian dapat digunakan untuk menilai akurasi prototype</strong></td>
-                                <td>Penilaian <em>Akurat / Tidak Akurat</em> dihitung otomatis menjadi persentase akurasi pada Dashboard.</td>
-                                <td><span id="poc7" class="badge badge-amber">Siap Diuji</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <div>
-                        <div class="card-title">Log Pertanyaan Belum Terjawab (Evaluasi Sinonim &amp; Gap Knowledge Base)</div>
-                        <div class="card-subtitle">Pertanyaan yang ditolak oleh Gatekeeper Anti-Halusinasi karena belum ditemukan di Knowledge Base</div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Pertanyaan Pengguna</th>
+                                    <th>Hasil Normalisasi Kata Kunci</th>
+                                    <th style="width:190px;">Waktu</th>
+                                </tr>
+                            </thead>
+                            <tbody id="unansweredTableBody">
+                                <tr><td colspan="3" style="text-align:center;color:#64748b;">Belum ada pertanyaan yang tidak terjawab.</td></tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-                <div class="table-wrap">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Pertanyaan Pengguna</th>
-                                <th>Hasil Normalisasi Kata Kunci</th>
-                                <th style="width:190px;">Waktu</th>
-                            </tr>
-                        </thead>
-                        <tbody id="unansweredTableBody">
-                            <tr><td colspan="3" style="text-align:center;color:#64748b;">Belum ada pertanyaan yang tidak terjawab.</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
-    </main>
+            </section>
+        </main>
+    </div>
 
     <script src="/public/js/vercel-engine.js"></script>
     <script src="/public/js/app.js"></script>

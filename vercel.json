@@ -1,5 +1,9 @@
 {
   "rewrites": [
+    { "source": "/api/chat.php", "destination": "/api/chat.js" },
+    { "source": "/api/kb.php", "destination": "/api/kb.js" },
+    { "source": "/api/test.php", "destination": "/api/test.js" },
+    { "source": "/api/stats.php", "destination": "/api/stats.js" },
     { "source": "/chat", "destination": "/index.html" },
     { "source": "/knowledge-base", "destination": "/index.html" },
     { "source": "/testing", "destination": "/index.html" },

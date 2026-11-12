@@ -1,7 +1,7 @@
 .vercel
 node_modules
 .git
-/api/
+/api/*.php
 /core/
 /services/
 /lib/

@@ -161,16 +161,41 @@
         const norm = normalizeQuestion(question);
         const topKBs = await searchTopKB(norm);
 
-        const NO_KB_MESSAGE = 'Maaf, informasi mengenai pertanyaan Anda belum tersedia di dalam Knowledge Base Kabupaten Purworejo.';
-        let answer = NO_KB_MESSAGE;
+        const FRIENDLY_OPENERS = [
+            'Tentu, saya bantu informasinya ya.',
+            'Baik, saya bantu cek informasinya.',
+            'Tentu, berikut informasinya.',
+            'Baik, untuk informasi tersebut berikut detailnya.',
+            'Silakan, berikut informasi yang tersedia.',
+            'Tentu, saya bantu cek ya.'
+        ];
+        const NO_KB_MESSAGES = [
+            'Maaf ya, informasi tersebut belum tersedia di data yang saya miliki.',
+            'Maaf, untuk informasi tersebut saat ini belum tersedia di layanan informasi Kabupaten Purworejo.'
+        ];
+        let hash = 0;
+        for (let i = 0; i < question.length; i++) hash = (hash * 31 + question.charCodeAt(i)) >>> 0;
+
+        let answer = NO_KB_MESSAGES[hash % NO_KB_MESSAGES.length];
         let hasAnswer = false;
         let mode = 'strict_gatekeeper_no_kb';
 
         if (topKBs.length > 0) {
             const best = topKBs[0];
-            answer = `Berdasarkan Knowledge Base **${best.title}** (Kategori: *${best.category}*):\n\n${best.answer}`;
+            const opener = FRIENDLY_OPENERS[hash % FRIENDLY_OPENERS.length];
+            const title = String(best.title || '').trim();
+            let cleanBody = String(best.answer || '').trim()
+                .replace(/^#\s*KNOWLEDGE BASE[^\n]*\n+/i, '')
+                .replace(/^\*Berikut informasi terkait pertanyaan Anda:\*\s*\n*/i, '');
+            const lines = cleanBody.split('\n');
+            if (lines.length > 1) {
+                const firstPlain = lines[0].replace(/[^\p{L}\p{N}\s]/gu, '').trim().toLowerCase();
+                const titlePlain = title.replace(/[^\p{L}\p{N}\s]/gu, '').trim().toLowerCase();
+                if (firstPlain && titlePlain && firstPlain === titlePlain) lines.shift();
+            }
+            answer = `${opener}\n\n${lines.join('\n').trim()}\n\nSemoga informasinya membantu ya.`;
             hasAnswer = true;
-            mode = 'kb_direct_synthesis';
+            mode = 'natural_conversational_fallback';
         }
 
         const elapsedMs = Date.now() - start;

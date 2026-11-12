@@ -1,7 +1,7 @@
 <?php
 /**
  * app/knowledge-base/page.php
- * Halaman /knowledge-base: Daftar, Pencarian, Detail, dan Import Knowledge Base
+ * Halaman /knowledge-base
  */
 
 require_once __DIR__ . '/../../components/KnowledgeBaseList.php';
@@ -9,7 +9,7 @@ require_once __DIR__ . '/../../components/KnowledgeBaseList.php';
 function renderKnowledgeBasePage(bool $isActive = false): void
 {
     ?>
-    <section id="page-kb" class="page-section <?= $isActive ? 'active' : '' ?>">
+    <section id="page-kb" class="page-section scrollable-page <?= $isActive ? 'active' : '' ?>">
         <?php renderKnowledgeBaseList(); ?>
     </section>
     <?php
